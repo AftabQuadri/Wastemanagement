@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Sign up form</title>
+	<!-- font awesome icons -->
+	<!-- css stylesheet -->
+	<link rel="stylesheet" href="style.css">
+	<link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+</head>
+
+<body>
+	<div id="box">
+		<h2 class="heading_signin_signup">Sign up </h2>
+		<form id="form" action="donorsignup" method="post">
+			<input type="text" placeholder="Enter your name" id="donorname" name="donorname" class="input" required><br>
+			<input type="text" placeholder="Enter your email" id="donoremail" name="donoremail" class="input"
+				required><br>
+			<input type="password" placeholder="Enter your password" id="donorpassword" name="donorpassword"
+				class="input" required><br>
+			<input type="submit" value="Sign Up" class="button">
+		</form>
+		<p id="error_message" style="margin: 0px; color: red;"></p>
+		<p style="margin: 5px; ">Already have an account </p>
+		<button id="signin_btn" class="sign_in" onclick="signinpage()">Sign In</button>
+	</div>
+	<script>
+
+		var userType = getParameterByName('usertype');
+		console.log('User Type:', userType);
+
+		var form = document.getElementById("form");
+		form.addEventListener('submit', function (event) {
+			event.preventDefault(); // Prevent default form submission
+
+			var donorName = document.getElementById("donorname").value;
+			var donorEmail = document.getElementById("donoremail").value;
+			var donorPassword = document.getElementById("donorpassword").value;
+
+			if (donorName.trim() === '' || donorEmail.trim() === '' || donorPassword.trim() === '') {
+				updateErrorMessage("Please fill in all fields.");
+			} else if (!donorEmail.includes('@') || !donorEmail.includes('.com')) {
+				updateErrorMessage("Email must include '@' and '.com'.");
+			} else if (donorPassword.length < 8) {
+				updateErrorMessage("Password must be at least 8 characters long.");
+			} else {
+				updateErrorMessage("Connecting to server..");
+				// Submit the form using AJAX
+				var xhr = new XMLHttpRequest();
+				xhr.open('POST', 'donorsignup', true);
+				xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+				xhr.onreadystatechange = function () {
+					if (xhr.readyState === 4 && xhr.status === 200) {
+						var response = JSON.parse(xhr.responseText);
+						if (response.error) {
+							updateErrorMessage(response.error);
+						} else if (response.message) {
+							var timerValue = 5; // Set your initial timer value
+							updateErrorMessage(response.message + timerValue + " seconds.");
+
+							// Use setInterval to update the timer every second
+							var countdownInterval = setInterval(function () {
+								timerValue--;
+
+								if (timerValue >= 0) {
+									updateErrorMessage(response.message + timerValue + " seconds.");
+								} else {
+									clearInterval(countdownInterval); // Stop the interval when the countdown reaches zero
+									updateErrorMessage('');
+									signinpage();
+								}
+							}, 1000);
+						}
+					}
+				};
+
+				// Send form data as URL-encoded parameters
+				xhr.send("donorname=" + encodeURIComponent(donorName) +
+					"&donoremail=" + encodeURIComponent(donorEmail) +
+					"&donorpassword=" + encodeURIComponent(donorPassword) +
+					"&usertype=" + encodeURIComponent(userType));
+			}
+		});
+
+
+		function updateErrorMessage(message) {
+			document.getElementById("error_message").innerText = message;
+		}
+
+
+		function signinpage() {
+			window.location.href = "donorsignin.html?usertype=" + userType;
+		}
+		//getting the usertype
+
+		function getParameterByName(name, url) {
+			if (!url) url = window.location.href;
+			name = name.replace(/[\[\]]/g, "\\$&");
+			var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+				results = regex.exec(url);
+			if (!results) return null;
+			if (!results[2]) return '';
+			return decodeURIComponent(results[2].replace(/\+/g, " "));
+		}
+
+	</script>
+</body>
+
+</html>

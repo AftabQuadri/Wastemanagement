@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Wastage Management</title>
+    <style>
+        *{
+            border: 0;
+            padding: 0;
+            margin: 0;
+        }
+        body {
+            background-color: aliceblue;
+            background-image: url(images/pexels-ella-olsson-1640774.jpg);
+            background-size: cover;
+            height: 100vh;
+        }
+        nav{
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            height: 60px;
+            background-color: violet;
+            position: fixed;
+            top: 0;
+
+        }
+        #listitems{
+            height: 60px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            position: fixed;
+            right: 0;
+        }
+        li{
+            display: inline-block;
+            text-decoration: none;
+            list-style-type: none;
+            margin-right: 30px;
+        }
+        a{
+            color: white;
+            text-decoration: none;
+        }
+        #title{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-left: 30px;
+            font-size: 25px;
+            font-family: Arial, Helvetica, sans-serif;
+            height: 60px;
+            position: fixed;
+            color: white;
+            left: 0;
+        }
+        #main_div{
+        }
+    </style>
+</head>
+
+<body>
+    <div id="main_div">
+        <nav id="navbar">
+            <div id="title"> Waste Management</div>
+            <div id="listitems" >
+                <li><a href="index.html">Home</a></li>
+                <li><a href="admindash.html">About Us</a></li>
+                <li><a href="donorsignup.html?usertype=donor">Donor</a></li>
+                <li><a href="donorsignup.html?usertype=receiver">Receiver</a></li>
+                <li><a href="contactus.html">Contact</a></li>
+            </ul>
+        </div>
+        </nav>
+    </div>
+    <script>
+        function openNav() {
+            document.getElementById("myNav").style.width = "16.6666667%";
+            document.body.style.overflow = "hidden"; /* Prevent scrolling when overlay is open */
+        }
+
+        function closeNav() {
+            document.getElementById("myNav").style.width = "0";
+            document.body.style.overflow = "auto"; /* Enable scrolling when overlay is closed */
+        }
+    </script>
+</body>
+
+</html>

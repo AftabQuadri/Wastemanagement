@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Sign in from</title>
+	<!-- font awesome icons -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+		integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+		crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<!-- css stylesheet -->
+	<link rel="stylesheet" href="style.css">
+
+
+</head>
+
+<body background="images/download.jpeg">
+
+	<div id="box">
+		<h2 class="heading_signin_signup">Sign up </h2>
+		<form id="form" action="donorsignin" method="post">
+			<input type="text" id="signinemail" placeholder="Enter your email" name="donoremail" class="input"
+				style="margin-top: 20px;" required><br>
+			<input type="password" id="signinpassword" placeholder="Enter your password" name="donorpassword"
+				class="input" style="margin-top: 15px;" required><br>
+			<p style="text-align: end; margin-top: 2px; margin-right: 83px; " onclick="forget()">Forgot password</p>
+			<input type="submit" value="Sign In" class="button">
+		</form>
+		<p id="error_message" style="margin: 0px; color: red;"></p>
+		<p style="margin: 0px;">Don't have an account create one </p>
+		<button id="signup_btn" class="sign_in" onclick="signuppage()" style="margin-top: 2px;">Sign up</button>
+	</div>
+	<script>
+		var userType = getParameterByName('usertype');
+		console.log('User Type:', userType);
+
+
+		var form = document.getElementById("form");
+		form.addEventListener('submit', function (event) {
+			event.preventDefault();// Prevent form submission
+			var donorEmail = document.getElementById("signinemail").value;
+			var donorPassword = document.getElementById("signinpassword").value;
+
+			// Perform custom validation here
+			if (donorEmail.trim() === '' || donorPassword.trim() === '') {
+				document.getElementById("error_message").innerText = "Please fill in all fields.";
+				//event.preventDefault(); // Prevent form submission
+			} else if (!donorEmail.includes('@') || !donorEmail.includes('.com')) {
+				document.getElementById("error_message").innerText = "Email must include '@' and '.com'.";
+				//event.preventDefault(); // Prevent form submission
+			} else if (donorPassword.length < 8) {
+				document.getElementById("error_message").innerText = "Password must be at least 8 characters long.";
+				//event.preventDefault(); // Prevent form submission
+			} else {
+				updateErrorMessage("Conecting to server..");
+				var xhr = new XMLHttpRequest();
+				xhr.open('POST', 'donorsignin?usertype='+userType, true);
+				xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+				xhr.onreadystatechange = function () {
+					console.log("Ready state: " + xhr.readyState + ", Status: " + xhr.status);
+
+					if (xhr.readyState === 4 && xhr.status === 200) {
+						try {
+							var response = JSON.parse(xhr.responseText);
+							if (response.error) {
+								updateErrorMessage(response.error);
+							} else if (response.message) {
+								document.getElementById("error_message").innerText = response.message;
+							}
+						}
+						catch (error) {
+							console.error("Error parsing JSON:", error);
+
+						}
+					}
+				};
+
+				// Send form data as URL-encoded parameters
+				xhr.send("donoremail=" + encodeURIComponent(donorEmail) +
+					"&donorpassword=" + encodeURIComponent(donorPassword));
+			}
+		});
+
+		
+
+		function updateErrorMessage(message) {
+			document.getElementById("error_message").innerText = message;
+		}
+
+		function signuppage() {
+			window.location.href = "donorsignup.html?usertype="+userType;
+		}
+
+		function forget() {
+			window.location.href = "forget.html?usertype="+userType;
+		}
+		function getParameterByName(name, url) {
+			if (!url) url = window.location.href;
+			name = name.replace(/[\[\]]/g, "\\$&");
+			var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+				results = regex.exec(url);
+			if (!results) return null;
+			if (!results[2]) return '';
+			return decodeURIComponent(results[2].replace(/\+/g, " "));
+		}
+
+
+	</script>
+</body>
+
+</html>

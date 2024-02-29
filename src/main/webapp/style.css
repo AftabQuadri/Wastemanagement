@@ -1,0 +1,82 @@
+* {
+	margin: 5px;
+	border-radius: 5px;
+
+}
+
+body {
+	background-image: url("images/download.jpeg");
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-size: cover;
+}
+
+#box {
+	height: 330px;
+	width: 500px;
+	margin: auto;
+	margin-top: 200px;
+	background-color: white(183, 205, 225);
+	border: 3px solid whitesmoke;
+	border-radius: 10px;
+	box-shadow: 5px 5px 5px gray, 5px 5px 5px gray;
+
+}
+
+.input {
+	padding: 5px;
+	border: 2px solid black;
+	border-radius: 8px;
+	width: 300px;
+	height: 25px;
+	justify-content: center;
+	margin-left: 90px;
+	padding-left: 10px;
+}
+
+.button {
+	margin-top: 3px;
+	width: 125px;
+	padding: 12px;
+	background-color: #1179e7;
+	border: none;
+	border-radius: 25px;
+	color: #fff;
+	text-transform: uppercase;
+	font-size: 15px;
+	display: block;
+	margin: auto;
+}
+
+.sign_in {
+	margin-top: 3px;
+	width: 125px;
+	padding: 12px;
+	background-color: rgb(255, 0, 0);
+	border: none;
+	border-radius: 25px;
+	color: #fff;
+	text-transform: uppercase;
+	text-decoration: none;
+	font-size: 15px;
+	display: block;
+	margin: auto;
+}
+
+.heading_signin_signup {
+	color: aqua(105, 105, 107);
+	text-align: center;
+	font-size: 30px;
+
+}
+
+form {
+	justify-content: center;
+}
+
+p {
+	color: white;
+	text-align: center;
+	margin: 10px;
+}
+
